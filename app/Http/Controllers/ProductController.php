@@ -17,7 +17,7 @@ class ProductController extends Controller
                 'category' => 'Điện thoại',
                 'stock' => 50,
                 'image' => 'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aXBob25lJTIwMTR8ZW58MHx8MHx8fDA%3D',
-                'description' => 'iPhone 14 Pro Max với chip A16 Bionic, camera 48MP và màn hình Dynamic Island.'
+                'description' => 'IPhone 14 Pro Max với chip A16 Bionic, camera 48MP và màn hình Dynamic Island.'
             ],
             [
                 'id' => 2,
