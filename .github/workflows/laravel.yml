@@ -50,16 +50,8 @@ jobs:
       run: php artisan test
 
     - name: Run PHPUnit Tests
-      env:
-        DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
-        DB_PORT: 3306
-        DB_DATABASE: test_db
-        DB_USERNAME: root
-        DB_PASSWORD: root
-        run: |
-          php artisan migrate --force
-          ./vendor/bin/phpunit --coverage-text
+      run: |
+        ./vendor/bin/phpunit --coverage-text
 
     - name: SonarCloud Scan (AI Review)
       uses: SonarSource/sonarcloud-github-action@v1
