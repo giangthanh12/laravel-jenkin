@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [UserController::class, 'index'])->name('users.index');
-Route::get('/users', [UserController::class, 'index'])->name('users.list');
+Route::get('/', [ProductController::class, 'index'])->name('products.index');
+Route::get('/categories', [ProductController::class, 'categories'])->name('products.categories');
+Route::get('/products/search', [ProductController::class, 'searchProducts'])->name('products.search');
+Route::get('/products/category-search', [ProductController::class, 'searchProductsByCategory'])->name('products.category-search');
