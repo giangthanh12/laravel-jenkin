@@ -17,3 +17,5 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
 Route::get('/categories', [ProductController::class, 'categories'])->name('products.categories');
+Route::get('/products/search', [ProductController::class, 'searchProducts'])->name('products.search');
+Route::get('/products/category-search', [ProductController::class, 'searchProductsByCategory'])->name('products.category-search');

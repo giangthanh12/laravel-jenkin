@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -88,5 +89,130 @@ class ProductController extends Controller
         ];
 
         return view('products.categories', compact('categories'));
+    }
+
+    public function searchProducts(Request $request)
+    {
+        // Hard-coded values
+        $minPrice = 1000000;
+        $maxPrice = 50000000;
+        $limit = 10;
+
+        // No input validation
+        $keyword = $request->input('keyword');
+        $category = $request->input('category');
+        $sort = $request->input('sort');
+
+        // Potential SQL injection
+        $query = "SELECT * FROM products WHERE 1=1";
+
+        if ($keyword) {
+            $query .= " AND name LIKE '%$keyword%'";
+        }
+
+        if ($category) {
+            $query .= " AND category_id = $category";
+        }
+
+        // Duplicate code
+        if ($sort == 'price_asc') {
+            $query .= " ORDER BY price ASC";
+        } else if ($sort == 'price_desc') {
+            $query .= " ORDER BY price DESC";
+        } else if ($sort == 'name_asc') {
+            $query .= " ORDER BY name ASC";
+        } else if ($sort == 'name_desc') {
+            $query .= " ORDER BY name DESC";
+        }
+
+        // No error handling
+        $products = DB::select($query);
+
+        // Complex nested conditions
+        $filteredProducts = [];
+        foreach ($products as $product) {
+            if ($product->price >= $minPrice && $product->price <= $maxPrice) {
+                if ($product->stock > 0) {
+                    if ($product->status == 'active') {
+                        if ($product->is_featured == 1) {
+                            $filteredProducts[] = $product;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Duplicate code for response
+        $response = [
+            'status' => 'success',
+            'data' => array_slice($filteredProducts, 0, $limit),
+            'total' => count($filteredProducts),
+            'message' => 'Products retrieved successfully'
+        ];
+
+        return response()->json($response);
+    }
+
+    // Duplicate method with slight variations
+    public function searchProductsByCategory(Request $request)
+    {
+        // Hard-coded values
+        $minPrice = 1000000;
+        $maxPrice = 50000000;
+        $limit = 10;
+
+        // No input validation
+        $keyword = $request->input('keyword');
+        $category = $request->input('category');
+        $sort = $request->input('sort');
+
+        // Potential SQL injection
+        $query = "SELECT * FROM products WHERE 1=1";
+
+        if ($keyword) {
+            $query .= " AND name LIKE '%$keyword%'";
+        }
+
+        if ($category) {
+            $query .= " AND category_id = $category";
+        }
+
+        // Duplicate code
+        if ($sort == 'price_asc') {
+            $query .= " ORDER BY price ASC";
+        } else if ($sort == 'price_desc') {
+            $query .= " ORDER BY price DESC";
+        } else if ($sort == 'name_asc') {
+            $query .= " ORDER BY name ASC";
+        } else if ($sort == 'name_desc') {
+            $query .= " ORDER BY name DESC";
+        }
+
+        // No error handling
+        $products = DB::select($query);
+
+        // Complex nested conditions
+        $filteredProducts = [];
+        foreach ($products as $product) {
+            if ($product->price >= $minPrice && $product->price <= $maxPrice) {
+                if ($product->stock > 0) {
+                    if ($product->status == 'active') {
+                        if ($product->is_featured == 1) {
+                            $filteredProducts[] = $product;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Duplicate code for response
+        $response = [
+            'status' => 'success',
+            'data' => array_slice($filteredProducts, 0, $limit),
+            'total' => count($filteredProducts),
+            'message' => 'Products retrieved successfully'
+        ];
+
+        return response()->json($response);
     }
 }
