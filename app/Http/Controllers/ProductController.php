@@ -59,4 +59,34 @@ class ProductController extends Controller
 
         return view('products.index', compact('products'));
     }
+
+    public function categories()
+    {
+        // Dữ liệu mẫu cho danh mục sản phẩm
+        $categories = [
+            [
+                'id' => 1,
+                'name' => 'Điện thoại',
+                'description' => 'Các loại điện thoại di động',
+                'image' => 'https://via.placeholder.com/150',
+                'product_count' => 25
+            ],
+            [
+                'id' => 2,
+                'name' => 'Laptop',
+                'description' => 'Máy tính xách tay các loại',
+                'image' => 'https://via.placeholder.com/150',
+                'product_count' => 15
+            ],
+            [
+                'id' => 3,
+                'name' => 'Phụ kiện',
+                'description' => 'Phụ kiện điện thoại và laptop',
+                'image' => 'https://via.placeholder.com/150',
+                'product_count' => 30
+            ],
+        ];
+
+        return view('products.categories', compact('categories'));
+    }
 }
