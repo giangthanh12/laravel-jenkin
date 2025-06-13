@@ -43,11 +43,17 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
 
+    - name: Set up JDK 17 for SonarCloud
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
     - name: SonarCloud Scan (AI Review)
       uses: SonarSource/sonarcloud-github-action@v1
       with:
         projectBaseDir: .
       env:
-        SONAR_TOKEN: 4b59d1d7ce1d418348c2a8a6d340dbecb5367382
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_PROJECT_KEY: giangthanh12_laravel-jenkin
-        SONAR_ORGANIZATION: Nguyen Thanh Giang
+        SONAR_ORGANIZATION: giangthanh12
