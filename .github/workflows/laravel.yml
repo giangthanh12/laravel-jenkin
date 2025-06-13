@@ -49,9 +49,8 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan test
 
-    - name: Run PHPUnit Tests
-      run: |
-        ./vendor/bin/phpunit --coverage-text
+    - name: Run Laravel Pint (code style check)
+      run: ./vendor/bin/pint --test
 
     - name: SonarCloud Scan (AI Review)
       uses: SonarSource/sonarcloud-github-action@v1
