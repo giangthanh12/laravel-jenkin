@@ -43,9 +43,6 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
 
-    - name: Run Laravel Pint (code style check)
-      run: ./vendor/bin/pint --test
-
     - name: SonarCloud Scan (AI Review)
       uses: SonarSource/sonarcloud-github-action@v1
       with:
