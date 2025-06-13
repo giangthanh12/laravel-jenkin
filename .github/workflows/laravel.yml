@@ -49,11 +49,26 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: SonarCloud Scan (AI Review)
-      uses: SonarSource/sonarcloud-github-action@v1
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v3
       with:
-        projectBaseDir: .
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+
+    - name: Install SonarScanner CLI
+      run: |
+        npm install -g sonarqube-scanner
+    
+    - name: Run SonarCloud Scan
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_PROJECT_KEY: giangthanh12_laravel-jenkin
-        SONAR_ORGANIZATION: giangthanh12
+      run: |
+        sonar-scanner \
+          -Dsonar.projectKey=giangthanh12_laravel-jenkin \
+          -Dsonar.organization=giangthanh12 \
+          -Dsonar.sources=app \
+          -Dsonar.tests=tests \
+          -Dsonar.php.coverage.reportPaths=storage/coverage.xml \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${SONAR_TOKEN}
