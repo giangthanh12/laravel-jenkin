@@ -28,7 +28,7 @@ jobs:
       run: |
         php artisan config:clear
         php artisan route:clear
-        composer install --optimize-autoloader --no-dev
+        composer install --optimize-autoloader
         php artisan config:cache
         php artisan route:cache
 
