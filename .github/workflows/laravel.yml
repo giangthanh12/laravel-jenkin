@@ -49,34 +49,23 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan test
 
-    - name: Prepare deployment zip for Elastic Beanstalk
-      run: |
-        mkdir -p .ebextensions
-        echo 'files:
-  "/etc/httpd/conf.d/00_application.conf":
-    mode: "000644"
-    owner: root
-    group: root
-    content: |
-      DocumentRoot /var/app/current/public
+    - name: Run PHPUnit Tests
+      env:
+        DB_CONNECTION: mysql
+        DB_HOST: 127.0.0.1
+        DB_PORT: 3306
+        DB_DATABASE: test_db
+        DB_USERNAME: root
+        DB_PASSWORD: root
+        run: |
+          php artisan migrate --force
+          ./vendor/bin/phpunit --coverage-text
 
-      <Directory /var/app/current/public>
-        AllowOverride All
-        Require all granted
-      </Directory>' > .ebextensions/00_document_root.config
-
-        zip -r deploy-package.zip . -x '*.git*' 'tests/*' 'database/*.sqlite'
-
-    # Optional: Deploy to Elastic Beanstalk using AWS CLI
-    # Uncomment the block below and set secrets in GitHub repo settings
-
-    # - name: Deploy to Elastic Beanstalk
-    #   uses: einaregilsson/beanstalk-deploy@v21
-    #   with:
-    #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     application_name: laravel
-    #     environment_name: Laravel-env
-    #     region: ap-southeast-1
-    #     version_label: github-${{ github.run_number }}
-    #     deployment_package: deploy-package.zip
+    - name: SonarCloud Scan (AI Review)
+      uses: SonarSource/sonarcloud-github-action@v1
+      with:
+        projectBaseDir: .
+      env:
+        SONAR_TOKEN: 4b59d1d7ce1d418348c2a8a6d340dbecb5367382
+        SONAR_PROJECT_KEY: giangthanh12_laravel-jenkin
+        SONAR_ORGANIZATION: Nguyen Thanh Giang
